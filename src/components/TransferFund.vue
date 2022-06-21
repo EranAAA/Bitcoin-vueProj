@@ -1,5 +1,7 @@
 
 <script>
+import { eventBus } from '@/services/eventBus.service.js'
+
 export default {
    props: {
       contact: {
@@ -18,7 +20,9 @@ export default {
 
    data() {
       return {
-         amount: 0
+         amount: '',
+         isMsgOn: false,
+         msg: ''
       }
    },
 
@@ -26,7 +30,9 @@ export default {
       async onTransferFund() {
          const updatedUser = { ...this.user }
          if (updatedUser.coins < this.amount) {
-            console.log('no sufficient funds')
+            this.showMsg('No sufficient funds', 4000)
+         } else if (this.amount <= 0 || !this.amount) {
+            this.showMsg(`Can't transfer zero or negative funds`, 4000)
          } else {
             updatedUser.coins -= this.amount
             const moves = [...updatedUser.moves]
@@ -36,11 +42,25 @@ export default {
                at: Date.now(),
                amount: this.amount
             })
+            eventBus.emit('user-msg', {
+               txt: `Coins transfer Successfully`,
+               type: 'success',
+               timeout: 2000
+            })
             updatedUser.moves = moves
             const user = await this.$store.dispatch({ type: 'saveUser', user: updatedUser })
             this.onUpdateUser(user)
          }
-         this.amount = 0
+         this.amount = ''
+      },
+      showMsg(msg, time) {
+         this.msg = msg
+         this.isMsgOn = !this.isMsgOn
+         const intervalId = setTimeout(() => {
+            this.isMsgOn = false
+            this.msg = ''
+            clearInterval(intervalId)
+         }, time)
       }
    }
 }
@@ -55,6 +75,7 @@ export default {
          >Amount:
          <input placeholder="" v-model="amount" min="0" :max="user.coins" type="number" />
          <button @click="onTransferFund">Transfer</button>
+         <p class="fund-msg" v-if="isMsgOn">{{ msg }}</p>
       </label>
    </section>
 </template>
@@ -70,6 +91,12 @@ export default {
    display: flex;
    flex-direction: column;
    line-height: 35px;
+
+   .fund-msg {
+      display: inline;
+      margin-left: 10px;
+      font-size: 14px;
+   }
 
    span {
       font-size: 14px;
@@ -90,6 +117,10 @@ export default {
       border-radius: 3px;
       margin-left: 10px;
       cursor: pointer;
+
+      &:hover {
+         background-color: rgba(0, 128, 0, 0.5);
+      }
    }
 }
 </style>

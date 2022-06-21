@@ -1,6 +1,6 @@
 <template>
    <header class="app-header">
-      <h1>₿itcoin</h1>
+      <h1 @click="home">₿itcoin</h1>
       <nav>
          <RouterLink to="/"><img src="../assets/home.svg" alt="" /> </RouterLink>
          <RouterLink to="/contact"><img src="../assets/contact.svg" alt="" /> </RouterLink>
@@ -10,7 +10,14 @@
 </template>
 
 <script>
-export default {}
+export default {
+
+   methods: {
+      home() {
+         this.$router.push('/')
+      },
+   }
+}
 </script>
 
 <style lang="scss">
@@ -28,6 +35,7 @@ export default {}
       margin: 10px;
       margin-top: 0px;
       margin-bottom: 0px;
+      cursor: pointer;
    }
 
    nav {

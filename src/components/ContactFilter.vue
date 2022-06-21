@@ -1,6 +1,6 @@
 <template>
    <div class="contact-filter">
-      <input @input="filter" ref="filter" placeholder="Search contacts" v-model="filterBy.txt" type="text" />
+      <input @input="filter" ref="filter" placeholder="Search contacts by email/name/phone" v-model="filterBy.txt" type="text" />
    </div>
 </template>
 
@@ -28,7 +28,6 @@ export default {
    justify-content: center;
    align-items: center;
    align-content: center;
-   // margin: 10px;
    input {
       min-width: 360px;
       width: 50%;

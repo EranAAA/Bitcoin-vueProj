@@ -68,6 +68,7 @@ export default {
             <label for="">
                Image URL:
                <input v-model="contact.url" type="text" />
+               <span>Example: https://randomuser.me/api/portraits/women/44.jpg</span>
             </label>
 
             <img v-bind:src="this.contact.url" alt="" />
@@ -120,6 +121,9 @@ export default {
          }
          input {
             width: 350px;
+         }
+         span{
+            font-size: 14px;
          }
       }
    }

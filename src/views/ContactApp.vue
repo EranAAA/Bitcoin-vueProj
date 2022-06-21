@@ -44,7 +44,7 @@ export default {
    />
    <div v-if="contacts" class="contact-app">
       <ContactFilter @filter="onFilter" />
-      <RouterLink class="new-btn" :to="`/contact/edit`">Add new contact</RouterLink>
+      <RouterLink class="new-btn" :to="`/contact/edit`"> | Add new contact |</RouterLink>
       <ContactList :contacts="contactsToShow" />
    </div>
 </template>

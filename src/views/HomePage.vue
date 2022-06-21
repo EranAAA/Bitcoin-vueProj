@@ -19,7 +19,7 @@ export default {
          try {
             console.log(this.loginSignup)
             const user = await this.$store.dispatch({ type: this.loginSignup, name: this.name })
-            this.rate = await bitcoinService.getRate(user.coins)
+            this.rate = await bitcoinService.getRate()
             this.user = user
          } catch (error) {
             this.msg = error
@@ -34,7 +34,11 @@ export default {
       },
       onToggleClass() {
          this.isSignup = !this.isSignup
-      }
+      },
+      onGoToContact() {
+         this.$router.push('/contact')
+      },
+   
    },
 
    computed: {
@@ -61,32 +65,35 @@ export default {
       alt=""
    />
    <div class="home-page">
-      <div v-if="!user?.name" class="login">
-         <img src="https://bitstickers.net/wp-content/uploads/2013/12/btc-mono1.jpg" alt="" />
-         <form @submit.prevent="save">
-            <input placeholder="Enter your Full Name" v-model="name" type="name" />
-            <button @click="onLoginSignup">{{ loginSignup }}</button>
-            <br />
-            <p @click="onToggleClass" class="loginSignup">Change to {{ this.isSignup ? 'login' : 'signup' }}</p>
-            <p>{{ msg }}</p>
-         </form>
-      </div>
-
-      <div v-if="user?.name" class="user-details">
-         <div class="info">
-            <img v-bind:src="user.url" alt="" />
-            <h2>{{ user.name }}</h2>
+      <div class="home-container">
+         <div v-if="!user?.name" class="login">
+            <img src="https://bitstickers.net/wp-content/uploads/2013/12/btc-mono1.jpg" alt="" />
+            <form @submit.prevent="save">
+               <input placeholder="Enter your Full Name" v-model="name" type="name" />
+               <button @click="onLoginSignup">{{ loginSignup }}</button>
+               <br />
+               <p @click="onToggleClass" class="loginSignup">Change to {{ this.isSignup ? 'login' : 'signup' }}</p>
+               <p>{{ msg }}</p>
+            </form>
          </div>
 
-         <h3>Wallet: ${{ user.coins.toLocaleString() }}</h3>
-         <h3>
-            Bitcoin: {{ rate.toLocaleString() }}₿
-            <span>(Last updated: {{ new Date().toLocaleDateString('en-GB') }} at: {{ new Date().toLocaleTimeString('en-GB') }})</span>
-         </h3>
-         <hr />
+         <div v-if="user?.name" class="user-details">
+            <div class="info">
+               <img v-bind:src="user.url" alt="" />
+               <h2>{{ user.name }}</h2>
+            </div>
 
-         <button @click="onLogOut">Logout</button>
-         <MoveList :moves="user.moves" />
+            <h3>Wallet: ${{ user.coins.toLocaleString() }}</h3>
+            <h3>
+               USD/BTC: {{ rate }}₿
+               <span>(Last updated: {{ new Date().toLocaleDateString('en-GB') }} at: {{ new Date().toLocaleTimeString('en-GB') }})</span>
+            </h3>
+            <hr />
+
+            <button @click="onLogOut">Logout</button>
+            <MoveList :moves="user.moves" />
+         </div>
+         <button @click="onGoToContact" class="sellers">Search for sellers ⇒</button>
       </div>
    </div>
 </template>
@@ -96,55 +103,67 @@ export default {
    margin-top: 60px;
    margin-bottom: 60px;
    padding: 10px;
-   text-align: center;
    display: flex;
    justify-content: center;
 
-   .login {
-      box-shadow: 0 0 2px 1px;
-      padding: 10px;
-      height: 250px;
-   }
-
-   .user-details {
-      text-align: left;
-
-      .info {
-         display: flex;
-         align-items: center;
-         gap: 10px;
+   .home-container {
+      min-width: 360px;
+      width: 50%;
+      .login {
+         box-shadow: 0 0 2px 1px;
+         padding: 10px;
+         height: 250px;
+         text-align: center;
       }
-   }
+      .user-details {
+         text-align: left;
+         .info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
 
-   img {
-      width: 100px;
-   }
-   .loginSignup {
-      cursor: pointer;
-
-      &:hover {
-         text-decoration: underline;
+            .loginSignup {
+               cursor: pointer;
+               &:hover {
+                  text-decoration: underline;
+               }
+            }
+         }
+         span {
+            color: gray;
+            font-size: 13px;
+            font-style: italic;
+         }
       }
-   }
+      img {
+         width: 100px;
+      }
+      button {
+         font-family: BlinkMacSystemFont;
+         font-size: 16px;
+         font-weight: bold;
+         border: unset;
+         background-color: unset;
+         padding: 0;
+         cursor: pointer;
+         margin-left: 5px;
 
-   span {
-      color: gray;
-      font-size: 13px;
-      font-style: italic;
-   }
+         &:hover {
+            color: orange;
+         }
+      }
+      .sellers {
+         width: 100%;
+         margin-top: 25px;
+         box-shadow: 0px 0px 3px 1px;
+         line-height: 25px;
+         margin-left: 0px;
 
-   button {
-      font-family: BlinkMacSystemFont;
-      font-size: 16px;
-      font-weight: bold;
-      border: unset;
-      background-color: unset;
-      padding: 0;
-      cursor: pointer;
-      margin-left: 5px;
-
-      &:hover {
-         color: orange;
+         &:hover {
+         box-shadow: 0px 0px 8px 1px;
+            border-radius: 3px;
+            color: #121212;
+         }
       }
    }
 }

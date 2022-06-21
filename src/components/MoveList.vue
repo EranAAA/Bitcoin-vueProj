@@ -19,7 +19,7 @@ export default {
             filterdMoves = filterdMoves.sort((a, b) => b.at - a.at).filter((move, idx) => idx <= 2)
             return filterdMoves
          } else {
-            const filterdMoves = this.moves.filter(move => move.toId === this.contact._id)
+            const filterdMoves = this.moves.filter(move => move.toId === this.contact._id).sort((a, b) => b.at - a.at)
             console.log('filterdMoves', filterdMoves)
             return filterdMoves
          }
@@ -41,9 +41,9 @@ export default {
       <ul>
          <li v-for="move in filterMoves" :key="move.at">
             <div v-if="this.$route.fullPath === '/'" class="to">To: {{ move.to }} <br /></div>
-            Transition date:
+            Deal date:
             {{ new Date(move.at).toLocaleDateString('en-GB') }} {{ new Date(move.at).toLocaleTimeString('en-GB') }} <br />
-            Amount: ${{ move.amount }}
+            Amount: ${{ move.amount.toLocaleString() }}
             <hr />
          </li>
       </ul>
