@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/Bitcoin-vueProj/',
   plugins: [vue()],
   resolve: {
     alias: {
@@ -12,3 +13,7 @@ export default defineConfig({
     }
   }
 })
+
+// module.exports = {
+//   publicPath: process.env.NODE_ENV === "production" ? "/Bitcoin-vueProj/" : "/",
+// };
