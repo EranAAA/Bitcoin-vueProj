@@ -3,8 +3,8 @@ import { resolveComponent } from 'vue'
 
 export default {
    state: {
-      users: await userService.query() || [],
-      user: await userService.loggedInUser() || {},
+      users: [],
+      user: JSON.parse(localStorage.getItem('loggedInUser')) || {},
    },
    mutations: {
       setUsers(state, { users }) {

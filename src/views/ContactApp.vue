@@ -54,6 +54,7 @@ export default {
    position: fixed;
    opacity: 0.15;
    z-index: -1;
+   height: 100%;
 }
 .contact-app {
    margin-top: 60px;

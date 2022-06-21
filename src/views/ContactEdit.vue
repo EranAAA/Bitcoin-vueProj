@@ -55,19 +55,19 @@ export default {
          <form v-if="contact" @submit.prevent="save">
             <label for="">
                Name:
-               <input placeholder="Name" v-model="contact.name" type="text" />
+               <input v-model="contact.name" type="text" />
             </label>
             <label for="">
                Email:
-               <input placeholder="Email" v-model="contact.email" type="email" />
+               <input v-model="contact.email" type="email" />
             </label>
             <label for="">
                Phone:
-               <input placeholder="Phone" v-model="contact.phone" type="text" />
+               <input v-model="contact.phone" type="text" />
             </label>
             <label for="">
-               URL:
-               <input placeholder="Phone" v-model="contact.url" type="text" />
+               Image URL:
+               <input v-model="contact.url" type="text" />
             </label>
 
             <img v-bind:src="this.contact.url" alt="" />
